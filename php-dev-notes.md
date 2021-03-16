@@ -7,7 +7,7 @@ PHP does have different intepretions on the string that is surrounded by `''` (s
 ```php
 <?php
 $a="text"; //text
-$b='text'; //test
+$b='text'; //text
 ?>
 ```
 The only difference between those is when the string is surrounded using `''`(single quote) the string will be interpreted "as it is". This means nearly all espace sequences are not interpreted except the `\'` that used to escape the `'` in the string. Also, the variable are not expanded in single quoted.
@@ -38,5 +38,80 @@ echo "あら、きれいな{$name}がさいている"; //outputs "あら、き�
 echo "<pre>名称：{$dict['name']}\n色：{$dict['color']}</pre>"; 
 ?>
 ```
-# 2. Anything outside `<?php ?>` are echos
-TBC
+# 2. `<?=...?>`
+In PHP the `<?=...?>` is  shorthands for `<?php echo ...;?>`
+So the following code snippets are equivalent
+```php
+<?php
+echo "hello";
+?>
+```
+```php
+<?="hello"?>
+```
+# 3. Anything outside `<?php ?>` are ignored and outputed
+Technically PHP ignores anything outside the `<?php ?>` and outputs it directly to the output.
+## Example 1: Basics
+If the original php code are as below:
+```php
+<html>
+<head></head>
+<body>
+<?php
+echo time();
+?>
+</body>
+</body>
+```
+The PHP parser will ignore anything outside the `<>php ?>` and output it directly to the output. Making the above code techinically equivalent with the following
+```php
+<?php
+echo "<html>\n<head></head>\n<body>";
+echo time();
+echo "</body></body>";
+?>
+```
+## Example 2: Usage inside code blocks (function blocks and if-else if-else blocks etc)
+By using the same property we can simplify this:
+```php
+<?php
+if(intval($_GET['value'])<20){
+echo "<div id=\"result\">The value you have provided is less than 20</div>";
+}
+else{
+echo "<div id=\"result\">The value you have provided is more or equal than 20</div>";
+}
+?>
+```
+into
+```php
+<?php
+if(intval($_GET['value'])<20){
+?>
+<div id="result">The value you have provided is less than 20</div>;
+<?php
+}
+else{
+?>
+<div id="result">The value you have provided is more or equal than 20</div>;
+<?php
+}
+?>
+```
+## Example 3: Mixture with shorthand (`<?=...?>`)
+Similar with the Example 2 but with the `$_GET['value']` outputted too
+```php
+<?php
+if(intval($_GET['value'])<20){
+?>
+<div id="result">The value you have provided is less than 20 (<?=$_GET['value']?>)</div>;
+<?php
+}
+else{
+?>
+<div id="result">The value you have provided is more or equal than 20 (<?=$_GET['value']?>)</div>;
+<?php
+}
+?>
+```
+[Reference](https://www.php.net/manual/en/language.basic-syntax.phpmode.php)
