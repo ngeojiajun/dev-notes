@@ -3,14 +3,14 @@
 This file describe the tricks that can be used in writing the PHP codes
 
 # 1. `"text"` and `'text'`
-PHP does have different intepretions on the string that is surrounded by `''` (single quote) and `""` (double quotes). When used in normal string it does results in the result.
+PHP does have different intepretions on the string that is surrounded by `''` (single quote) and `""` (double quotes). When used in normal string it does results in the same result.
 ```php
 <?php
 $a="text"; //text
 $b='text'; //text
 ?>
 ```
-The only difference between those is when the string is surrounded using `''`(single quote) the string will be interpreted "as it is". This means nearly all espace sequences are not interpreted except the `\'` that used to escape the `'` in the string. Also, the variable are not expanded in single quoted strings.
+The only difference between those is when the string is surrounded using `''`(single quote) the string will be interpreted "as it is". This means nearly all espace sequences are not interpreted except the `\'` that used to escape the `'` in the string. Also, the variables are not expanded in single quoted strings.
 ```php
 <?php
 $hurray='Hurray';
