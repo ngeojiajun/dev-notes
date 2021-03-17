@@ -10,7 +10,7 @@ $a="text"; //text
 $b='text'; //text
 ?>
 ```
-The only difference between those is when the string is surrounded using `''`(single quote) the string will be interpreted "as it is". This means nearly all espace sequences are not interpreted except the `\'` that used to escape the `'` in the string. Also, the variable are not expanded in single quoted.
+The only difference between those is when the string is surrounded using `''`(single quote) the string will be interpreted "as it is". This means nearly all espace sequences are not interpreted except the `\'` that used to escape the `'` in the string. Also, the variable are not expanded in single quoted strings.
 ```php
 <?php
 $hurray='Hurray';
@@ -115,3 +115,39 @@ else{
 ?>
 ```
 [Reference](https://www.php.net/manual/en/language.basic-syntax.phpmode.php)
+
+# 4:Use output buffering if nessacary
+In cases that requires you to modify the outputted stream, such as generating error pages when error happened you can use object buffering to achieve that.
+Following are the usually used functions:
+| Function       | Description           |
+| ------------- |:-------------|
+| `ob_start(callable $cb=null,int $chunk=0,int $flag=PHP_OUTPUT_HANDLER_STDFLAGS)`|This functions turn on the output buffering. When the output buffering is enabled, only the header would be sent to the browser while the output is buffered inside the internal buffer until it is explicitly flushed or the script ends|
+| `ob_clean()`|Wipe the output buffering while not destroying the internal buffer|
+| `ob_flush()` |Flush (output) the current content in internal buffers while not destroying it|
+
+## Example 1: Generating a simple error page
+```php
+<?php
+ob_start(); //enable the object buffering
+function generateErrorPage(string $e="Error"):void{
+ob_clean(); //clear the buffer
+http_response_code(500); //override the error code
+?>
+<html>
+<head><title>Internal Server Error</title></head>
+<body>Internal Server Error Occured:<br/><?=htmlentities($e)?></body>
+</html>
+<?php
+}
+/****** ommited ******/
+generateErrorPage("Error!");
+?>
+```
+Will produce this as output regardless what is inside the `/****** ommited ******/` as long the output buffer is neither flushed nor disabled.
+```html
+<html>
+<head><title>Internal Server Error</title></head>
+<body>Internal Server Error Occured:<br/>Error!</body>
+</html>
+```
+[Reference](https://www.php.net/manual/en/book.outcontrol.php)
