@@ -143,7 +143,7 @@ http_response_code(500); //override the error code
 generateErrorPage("Error!");
 ?>
 ```
-Will produce this as output regardless what is inside the `/****** ommited ******/` as long the output buffer is neither flushed nor disabled.
+Will produce this as output regardless what is inside the `/****** ommited ******/` as long the output buffer is neither flushed nor disabled inside it.
 ```html
 <html>
 <head><title>Internal Server Error</title></head>
